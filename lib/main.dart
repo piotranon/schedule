@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:schedule/pages/mainPage.dart';
+import 'package:schedule/pages/settings.dart';
+import 'package:schedule/pages/weekDayListPage.dart';
+import 'package:schedule/viewmodels/weekDayListViewModel.dart';
 import 'home.dart';
 
 void main() {
@@ -8,10 +13,13 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeView(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: MainView());
+    // return MaterialApp(debugShowCheckedModeBanner: true, home: SettingsView());
+    // home: ChangeNotifierProvider(
+    // builder: (_) => WeekViewModel(),
+    // child: weekDayListPage(),
+    // ));
+    // HomeView(),
   }
 }
 

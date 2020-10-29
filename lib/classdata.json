@@ -1,0 +1,80 @@
+{
+    "timezone": "UTC+2h",
+    "callendar": [
+        {
+            "day": 0,
+            "classes": [
+                {
+                    "meetingTime": "10:00",
+                    "length": 90,
+                    "name": "Proseminarium",
+                    "group": 0,
+                    "lab": 5,
+                    "lecturer": {
+                        "name": "Marcin",
+                        "surname": "Wesołowski",
+                        "academic title": "dr"
+                    },
+                    "week": "all"
+                }
+            ]
+        },
+        {
+            "day": 1,
+            "classes": [
+                {
+                    "meetingTime": "8:30",
+                    "length": 90,
+                    "name": "Wybrane zagadnienia współczesnej informatyki",
+                    "group": 0,
+                    "lab": 4,
+                    "lecturer": {
+                        "name": "Krzysztof",
+                        "surname": "Pancerz",
+                        "academic title": "dr hab."
+                    },
+                    "week": "1,3"
+                },
+                {
+                    "meetingTime": "8:30",
+                    "length": 90,
+                    "name": "Programowanie usług w chmurze komputerowej",
+                    "group": 0,
+                    "lab": 4,
+                    "lecturer": {
+                        "name": "Jarosław",
+                        "surname": "Szkoła",
+                        "academic title": "mgr inż."
+                    },
+                    "week": "2,4"
+                },
+                {
+                    "meetingTime": "10:30",
+                    "length": 90,
+                    "name": "Programowanie Interfejsów Internetowych",
+                    "group": 0,
+                    "lab": 1,
+                    "lecturer": {
+                        "name": "Wiesław",
+                        "surname": "Paja",
+                        "academic title": "dr inż."
+                    },
+                    "week": "all"
+                },
+                {
+                    "meetingTime": "10:30",
+                    "length": 90,
+                    "name": "Wybrane zagadnienia współczesnej informatyki",
+                    "group": 0,
+                    "lab": 2,
+                    "lecturer": {
+                        "name": "Krzysztof",
+                        "surname": "Pancerz",
+                        "academic title": "dr hab."
+                    },
+                    "week": "all"
+                }
+            ]
+        }
+    ]
+}
