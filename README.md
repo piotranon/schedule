@@ -23,30 +23,30 @@ samples, guidance on mobile development, and a full API reference.
 - Django (python) (as RestAPI for schedule data)
 
 ## Description
-App will be showing a weekly schedule for UR lecture.
+App will be showing a weekly schedule for UR lecture.  
 Data will be downloaded from django as RestApi request returning (json).
 // image preview of UI
 
 ## Schedule analysis
 Schedule is assigned to year of study, field of study and current year, so each one from that is unique.
     
-Schedule contains list of days ["monday","tuesday",...]
+Schedule contains list of days ["monday","tuesday",...]  
 Each day contains list of lectures.
 
 Lecture contains information about itself.
 
-Lecture is assigned to week:
-    - 1/3 (first and third week of the month)
-    - 2/4 (second and fourth week of the month)
-    - all (each week of the month)
+Lecture is assigned to week:  
+- 1/3 (first and third week of the month)  
+- 2/4 (second and fourth week of the month)  
+- all (each week of the month)  
 
-Each lecture is assigned to:
-    - full year (all students on year)
-    - main group (all students devided to groups most often 2)
-    - laboratories group (students from main groups devided to groups)
+Each lecture is assigned to:  
+- full year (all students on year)
+- main group (all students devided to groups most often 2)
+- laboratories group (students from main groups devided to groups)
 
-    Example:
-        There are 100 students on year. They are divided to 2 groups, each group is divided to 2 laboratories group.
+        Example:
+            There are 100 students on year. They are divided to 2 groups, each group is divided to 2 laboratories group.
 
         - group 1: students from 1 - 50
             - laboratories 1: students from 1 - 25
@@ -55,7 +55,7 @@ Each lecture is assigned to:
             - laboratories 3: students from 51 - 75
             - laboratories 4: students from 76 - 100
 
-Each student is assigned to one main group, laboratories group and speciality.
+Each student is assigned to one main group, laboratories group and speciality (if division to speciality exists).
 
 ## Data structure:
 1. Models nested structure
@@ -79,7 +79,7 @@ Each student is assigned to one main group, laboratories group and speciality.
                         - surname (String)
                         - email (String)
                         - academicTitle (String)
-1. Individual models
+1. Individual models with shost description
     
     - Schedule  
          Contains information about field of study, year of study, specialities,
