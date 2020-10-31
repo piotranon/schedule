@@ -25,7 +25,7 @@ class Lecture {
   final String weeks;
   final String name;
   final String start_time;
-  final int duration;
+  final String end_time;
   final int group;
   final int laboratories;
   final Lecturer lecturer;
@@ -34,7 +34,7 @@ class Lecture {
       {this.weeks,
       this.name,
       this.start_time,
-      this.duration,
+      this.end_time,
       this.group,
       this.laboratories,
       this.lecturer});
@@ -46,7 +46,7 @@ class Lecture {
         " | " +
         this.start_time +
         " | " +
-        this.duration.toString() +
+        this.end_time +
         " | " +
         this.group.toString() +
         " | " +

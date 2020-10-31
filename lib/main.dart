@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule/pages/mainPage.dart';
 import 'package:schedule/pages/settings.dart';
-import 'package:schedule/pages/weekDayListPage.dart';
-import 'package:schedule/viewmodels/weekDayListViewModel.dart';
 import 'home.dart';
 
 void main() {

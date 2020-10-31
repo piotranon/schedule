@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule/models/week.dart';
-import 'package:schedule/viewmodels/weekDayListViewModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -21,7 +20,7 @@ class _weekDayListState extends State<weekDayListPage> {
 
   void reload() async {
     // Provider.of<WeekViewModel>(context, listen: false).fetchAllWeekDays();
-    print("reolad started");
+    print("reolad");
     final response =
         await http.get('http://10.0.2.2:8000/schedule/api/lecture/');
     final json = jsonDecode(response.body) as Map;
@@ -56,7 +55,7 @@ class _weekDayListState extends State<weekDayListPage> {
             weeks: element['weeks'],
             name: element['name'],
             start_time: element['start_time'],
-            duration: element['duration'],
+            end_time: element['end_time'],
             group: element['group'],
             laboratories: element['laboratories']);
 
@@ -65,12 +64,13 @@ class _weekDayListState extends State<weekDayListPage> {
 
       WeekDay weekDay = new WeekDay(dayName: key, lectures: lectures);
       weekDays.add(weekDay);
+      print(weekDay);
     });
     Week week = new Week(
         fieldOfStudy: "Informatyka",
         yearOfStudy: "3rok 1 semestr",
         weekDay: weekDays);
-    print(week);
+    // print(week);
   }
 
   @override
