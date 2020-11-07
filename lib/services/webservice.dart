@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/week.dart';
+import 'package:schedule/models/schedule.dart';
 
 class Webservice {
-  Future<List<WeekDay>> getSchedule() async {
+  Future<List<Schedule>> getSchedule() async {
     final response = await http.get('http://10.0.2.2:8000/lecture/');
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body) as Map;

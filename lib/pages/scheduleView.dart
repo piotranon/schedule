@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule/Theme/MyTheme.dart' as Theme;
-import 'package:schedule/models/week.dart';
+import 'package:schedule/models/schedule.dart';
 import 'package:http/http.dart' as http;
 import 'package:schedule/viewModels/weekDayView.dart';
 import 'package:schedule/viewModels/weekView.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:schedule/service_locator.dart';
 
 class ScheduleView extends StatefulWidget {
   final String name;
@@ -18,91 +21,126 @@ class ScheduleView extends StatefulWidget {
   _ScheduleView createState() => _ScheduleView();
 }
 
-Week weekData;
-WeekViewModel viewData;
+// Week weekData;
+// WeekViewModel viewData;
 
-void reload() async {
-  bool isWeekEven = true;
-  int group = 1;
-  int laboratories = 1;
+// void reload() async {
+//   bool isWeekEven = true;
+//   int group = 1;
+//   int laboratories = 1;
 
-  // Provider.of<WeekViewModel>(context, listen: false).fetchAllWeekDays();
-  print("reolad");
-  final response = await http.get('http://10.0.2.2:8000/schedule/api/lecture/');
-  final json = jsonDecode(response.body) as Map;
-  print("reolad data obtained");
+//   // Provider.of<WeekViewModel>(context, listen: false).fetchAllWeekDays();
+//   print("reolad");
+//   final response = await http.get('http://10.0.2.2:8000/schedule/api/lecture/');
+//   final json = jsonDecode(response.body) as Map;
+//   print("reolad data obtained");
 
-  print(json);
-  // print(json.keys);
+//   print(json);
+//   // print(json.keys);
 
-  List<WeekDay> weekDays = new List<WeekDay>();
-  List<WeekDayViewModel> weekDaysModel = new List<WeekDayViewModel>();
+//   List<WeekDay> weekDays = new List<WeekDay>();
+//   List<WeekDayViewModel> weekDaysModel = new List<WeekDayViewModel>();
 
-  json.forEach((key, value) {
-    // print("$key - $value\n");
+//   json.forEach((key, value) {
+//     // print("$key - $value\n");
 
-    // List<dynamic> days =
-    // WeekDay weekDay;
-    // weekDay.dayName = key;
+//     // List<dynamic> days =
+//     // WeekDay weekDay;
+//     // weekDay.dayName = key;
 
-    List<Lecture> lectures = new List<Lecture>();
+//     List<Lecture> lectures = new List<Lecture>();
 
-    List<dynamic> lec = value;
+//     List<dynamic> lec = value;
 
-    lec.forEach((element) {
-      Lecturer lecturer = new Lecturer(
-          name: element['lecturer']['name'],
-          surname: element['lecturer']['surname'],
-          email: element['lecturer']['email'],
-          academic_title: element['lecturer']['academic_title']);
+//     lec.forEach((element) {
+//       Lecturer lecturer = new Lecturer(
+//           name: element['lecturer']['name'],
+//           surname: element['lecturer']['surname'],
+//           email: element['lecturer']['email'],
+//           academic_title: element['lecturer']['academic_title']);
 
-      bool isInGroupOrLaboratories = false;
-      if (element['group'] == null && element['laboratories'] == null ||
-          element['group'] == group ||
-          element['laboratories'] == laboratories) {
-        isInGroupOrLaboratories = true;
-      }
-      if (isInGroupOrLaboratories) {
-        if (element['weeks'] == "all" ||
-            isWeekEven && element['weeks'] == "2/4" ||
-            !isWeekEven && element['weeks'] == "1/3") {
-          Lecture lecture = new Lecture(
-              lecturer: lecturer,
-              weeks: element['weeks'],
-              name: element['name'],
-              start_time: element['start_time'],
-              end_time: element['end_time'],
-              group: element['group'],
-              laboratories: element['laboratories']);
-          lectures.add(lecture);
-        }
-      }
-    });
+//       bool isInGroupOrLaboratories = false;
+//       if (element['group'] == null && element['laboratories'] == null ||
+//           element['group'] == group ||
+//           element['laboratories'] == laboratories) {
+//         isInGroupOrLaboratories = true;
+//       }
+//       if (isInGroupOrLaboratories) {
+//         if (element['weeks'] == "all" ||
+//             isWeekEven && element['weeks'] == "2/4" ||
+//             !isWeekEven && element['weeks'] == "1/3") {
+//           Lecture lecture = new Lecture(
+//               lecturer: lecturer,
+//               weeks: element['weeks'],
+//               name: element['name'],
+//               start_time: element['start_time'],
+//               end_time: element['end_time'],
+//               group: element['group'],
+//               laboratories: element['laboratories']);
+//           lectures.add(lecture);
+//         }
+//       }
+//     });
 
-    WeekDay weekDay2 = new WeekDay(dayName: key, lectures: lectures);
-    weekDays.add(weekDay2);
+//     WeekDay weekDay2 = new WeekDay(dayName: key, lectures: lectures);
+//     weekDays.add(weekDay2);
 
-    WeekDayViewModel weekDayModel = new WeekDayViewModel(weekDay: weekDay2);
-    weekDayModel.settings();
+//     WeekDayViewModel weekDayModel = new WeekDayViewModel(weekDay: weekDay2);
+//     weekDayModel.settings();
 
-    weekDaysModel.add(weekDayModel);
-    // print(weekDay);
-  });
-  // Week week = new Week(
-  //     fieldOfStudy: "Informatyka",
-  //     yearOfStudy: "3rok 1 semestr",
-  //     weekDay: weekDays);
-  // // print(week);
-  // weekData = new Week(
-  //     fieldOfStudy: "Informatyka",
-  //     yearOfStudy: "3rok 1 semestr",
-  //     weekDay: weekDays);
-  print(weekData);
+//     weekDaysModel.add(weekDayModel);
+//     // print(weekDay);
+//   });
+//   // Week week = new Week(
+//   //     fieldOfStudy: "Informatyka",
+//   //     yearOfStudy: "3rok 1 semestr",
+//   //     weekDay: weekDays);
+//   // // print(week);
+//   // weekData = new Week(
+//   //     fieldOfStudy: "Informatyka",
+//   //     yearOfStudy: "3rok 1 semestr",
+//   //     weekDay: weekDays);
+//   print(weekData);
 
-  viewData = new WeekViewModel(week: weekDaysModel);
-  viewData.setting();
+//   viewData = new WeekViewModel(week: weekDaysModel);
+//   viewData.setting();
 
-  print(viewData);
+//   print(viewData);
+// }
+
+refresh() async {
+  print("ref1");
+
+  SharedPreferences storage = await SharedPreferences.getInstance();
+  var a = storage.get('test');
+  if (a != null) {
+    print("a exist " + a.toString());
+  } else {
+    storage.setString('test', "ale pamiec");
+    print("not exist" + a.toString());
+  }
+  print("ref2");
+  // print("data " + storage.getKeys().toList().toString());
+  // var storageService = locator<LocalStorageService>();
+  // print(storage.getKeys().toList().toString());
+}
+
+getData() async {
+  print("get data");
+  final response =
+      await http.get('http://10.0.2.2:8000/schedule/api/lectures/1');
+  if (response.statusCode == 200) {
+    final json = jsonDecode(response.body) as Map;
+    print("response: " + response.body);
+    // Map xd = jsonCodec.decode()
+    Map test = jsonDecode(response.body);
+    var x = Schedule.fromJson(test);
+
+    print(x.toString());
+    // print("dane: " + json.toString());
+    // return json.map((weekDay)=> WeekDay.from)
+  }
+  print("get data end");
 }
 
 class _ScheduleView extends State<ScheduleView> {
@@ -110,7 +148,8 @@ class _ScheduleView extends State<ScheduleView> {
   bool isWeekEven = true;
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => reload());
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) => reload());
   }
 
   @override
@@ -147,6 +186,14 @@ class _ScheduleView extends State<ScheduleView> {
         ),
         Lectures(
           selectedDay: selectedDay,
+        ),
+        RaisedButton(
+          onPressed: refresh,
+          child: Text("ref"),
+        ),
+        RaisedButton(
+          onPressed: getData,
+          child: Text("getdata"),
         )
       ],
     );

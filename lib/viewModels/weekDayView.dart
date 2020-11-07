@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:schedule/models/week.dart';
+import 'package:schedule/models/schedule.dart';
 
 class WeekDayModel extends ChangeNotifier {
   List<WeekDayViewModel> days;
