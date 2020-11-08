@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:schedule/models/schedule.dart';
+import 'package:schedule/models/models.dart';
 
 class WeekDayModel extends ChangeNotifier {
   List<WeekDayViewModel> days;
@@ -20,7 +20,7 @@ class WeekDayViewModel {
   WeekDayViewModel({this.weekDay});
 
   settings() {
-    startTime = weekDay.lectures[0].start_time;
-    endTime = weekDay.lectures[weekDay.lectures.length - 1].end_time;
+    // startTime = weekDay.lectures[0].start_time;
+    // endTime = weekDay.lectures[weekDay.lectures.length - 1].end_time;
   }
 }

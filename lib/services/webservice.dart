@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:schedule/models/schedule.dart';
+import 'package:schedule/models/models.dart';
 
 class Webservice {
   Future<List<Schedule>> getSchedule() async {
