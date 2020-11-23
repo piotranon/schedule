@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
-            topRow(),
+            TopRow(),
             // Padding(
             //   padding: const EdgeInsets.only(top: 16),
             //   child: Row(
@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
-class topRow extends StatelessWidget {
+class TopRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

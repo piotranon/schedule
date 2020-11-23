@@ -77,6 +77,7 @@ class _MainView extends State<MainView> {
     );
   }
 
+  //return callendar day numbers for this week
   List daysNumber() {
     int selectedDay = DateTime.now().weekday;
     var list = new List(7);

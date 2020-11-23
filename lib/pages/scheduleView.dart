@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule/Theme/MyTheme.dart' as Theme;
-import 'package:schedule/models/models.dart';
+import 'package:schedule/models/all.dart';
 import 'package:http/http.dart' as http;
-import 'package:schedule/viewModels/weekDayView.dart';
-import 'package:schedule/viewModels/weekView.dart';
+import 'package:schedule/viewModels/ScheduleViewModel.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:schedule/service_locator.dart';
 
 class ScheduleView extends StatefulWidget {
   final String name;
@@ -50,14 +48,37 @@ getData() async {
 
     SharedPreferences storage = await SharedPreferences.getInstance();
     storage.setString('schedule', response.body);
-    // print("st:" + storage.get('schedule'));
+    print("st:" + storage.get('schedule'));
   }
   print("get data end");
 }
 
 accessData() async {
   SharedPreferences storage = await SharedPreferences.getInstance();
-  return Schedule.fromJson(storage.get('schedule'));
+  print("schedule:" + storage.get('schedule').toString());
+  print("group " + storage.getInt("group").toString());
+  print("laboratories " + storage.getInt("laboratories").toString());
+  print("specialization " + storage.getInt("specialization").toString());
+  return Schedule.fromJson(jsonDecode(storage.get('schedule')));
+}
+
+setSettings() async {
+  SharedPreferences storage = await SharedPreferences.getInstance();
+  storage.setInt("group", 1);
+  storage.setInt("laboratories", 1);
+  storage.setInt("specialization", 1);
+  print("group " + storage.getInt("group").toString());
+  print("laboratories " + storage.getInt("laboratories").toString());
+  print("specialization " + storage.getInt("specialization").toString());
+}
+
+checkSchedule() async {
+  SharedPreferences storage = await SharedPreferences.getInstance();
+  print("st:" + storage.get('schedule').toString());
+  Schedule xd = Schedule.fromJson(jsonDecode(storage.get('schedule')));
+  ScheduleViewModel test = await xd.getLecturesForDay(DateTime.now());
+  print("schedule View " + test.toString());
+  // todo z tego scheduleViewModel wygenerowac wyglad przy zmianie
 }
 
 class _ScheduleView extends State<ScheduleView> {
@@ -104,35 +125,42 @@ class _ScheduleView extends State<ScheduleView> {
             ),
           ],
         ),
-        Lectures(
+        LecturesView(
           selectedDay: selectedDay,
         ),
         RaisedButton(
-          onPressed: refresh,
-          child: Text("ref"),
+          onPressed: accessData,
+          child: Text("accessData"),
         ),
         RaisedButton(
           onPressed: getData,
           child: Text("getdata"),
+        ),
+        RaisedButton(
+          onPressed: setSettings,
+          child: Text("setSettings"),
+        ),
+        RaisedButton(
+          onPressed: checkSchedule,
+          child: Text("checkSchedule"),
         )
       ],
     );
   }
 }
 
-class Lectures extends StatelessWidget {
-  const Lectures({
+class LecturesView extends StatelessWidget {
+  const LecturesView({
     Key key,
     this.selectedDay,
     this.startTime,
     this.endTime,
-    this.weekDay,
   }) : super(key: key);
 
   final int selectedDay;
   final String startTime;
   final String endTime;
-  final WeekDayViewModel weekDay;
+  // final WeekDayViewModel weekDay;
 
   @override
   Widget build(BuildContext context) {
@@ -162,8 +190,6 @@ class Lectures extends StatelessWidget {
               ),
             ],
           ),
-          // ClassCard2(),
-          // ClassCard2()
         ],
       ),
     ));
@@ -241,10 +267,31 @@ class HoursCard extends StatelessWidget {
         Container(
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0),
-            child: hoursLines(startTime.toString(), endTime.toString()),
+            child: hoursLines2(startTime, endTime),
           ),
         ),
       ],
+    );
+  }
+
+  Column hoursLines2(TimeOfDay startTime, TimeOfDay endTime) {
+    List<Widget> hours = [];
+    TimeOfDay x = new TimeOfDay(hour: startTime.hour, minute: 0);
+
+    TimeOfDay end;
+    if (endTime.minute > 0) {
+      end = new TimeOfDay(hour: endTime.hour + 1, minute: 0);
+    } else {
+      end = new TimeOfDay(hour: endTime.hour, minute: 0);
+    }
+
+    while (true) {
+      hours.add(LineGen2(lines: [30.0, 10.0, 20.0, 10.0], godz: x.toString()));
+      if (x == end) break;
+    }
+
+    return Column(
+      children: hours,
     );
   }
 

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:schedule/pages/mainPage.dart';
 import 'package:schedule/pages/settings.dart';
 import 'home.dart';
-import 'service_locator.dart';
 
 void main() {
   // setupLocator();
