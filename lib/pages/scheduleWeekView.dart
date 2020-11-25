@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schedule/Theme/MyTheme.dart' as Theme;
-import 'package:schedule/models/all.dart';
 import 'package:schedule/pages/schedule/bloc/schedule_bloc.dart';
 import 'package:schedule/viewModels/ScheduleViewModel.dart';
 
@@ -64,6 +64,7 @@ class _ScheduleWeekView extends State<ScheduleWeekView> {
             ),
           ),
         ),
+        Text("${selectedDay.toString()} - xd"),
         Container(
             child: BlocBuilder<ScheduleBloc, ScheduleState>(
           cubit: scheduleBloc,
@@ -100,6 +101,7 @@ class _ScheduleWeekView extends State<ScheduleWeekView> {
           child: SingleChildScrollView(
         child: Column(
           children: [
+            Text(model.toString()),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -107,11 +109,6 @@ class _ScheduleWeekView extends State<ScheduleWeekView> {
                   startTime: model.start_time,
                   endTime: model.end_time,
                 ),
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                  child: Lectures(lectures: model.lectures_in_day),
-                ))
               ],
             ),
           ],
@@ -218,9 +215,9 @@ class TimeLine extends StatelessWidget {
     TimeOfDay x = new TimeOfDay(hour: startTime.hour, minute: 0);
     TimeOfDay end;
     if (endTime.minute > 0) {
-      end = new TimeOfDay(hour: endTime.hour + 1, minute: 00);
+      end = new TimeOfDay(hour: endTime.hour + 1, minute: 0);
     } else {
-      end = new TimeOfDay(hour: endTime.hour, minute: 00);
+      end = new TimeOfDay(hour: endTime.hour, minute: 0);
     }
 
     while (true) {
@@ -262,7 +259,7 @@ class LineGen extends StatelessWidget {
                 width: lines[index],
                 height: 2,
                 color: Color(0xffd0d2d8),
-                margin: EdgeInsets.symmetric(vertical: 9.0),
+                margin: EdgeInsets.symmetric(vertical: 10.0),
               ),
               if (index == 0)
                 Padding(
@@ -278,121 +275,5 @@ class LineGen extends StatelessWidget {
             ],
           ),
         ));
-  }
-}
-
-class Lectures extends StatelessWidget {
-  final lectures;
-
-  const Lectures({Key key, this.lectures}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return lecturesList(lectures);
-  }
-
-  Column lecturesList(List<Lecture> lectures) {
-    List<Widget> lec = [];
-    // 15 min is 20px
-    for (int i = 0; i < lectures.length; i++) {
-      if (i == 0) {
-        print("xd " + lectures[0].start_time.minute.toDouble().toString());
-        lec.add(ClassCard(
-          paddingTop: lectures[0].start_time.minute.toDouble() / 15 * 20,
-          lecture: lectures[0],
-        ));
-      } else {
-        //check time difference between for each 15min 15points in view padding top
-        var start = lectures[i].start_time;
-        var last = lectures[i - 1].end_time;
-
-        var startDouble =
-            start.hour.toDouble() + (start.minute.toDouble() / 60);
-        var lastDoube = last.hour.toDouble() + (last.minute.toDouble() / 60);
-        var timeDif = (startDouble - lastDoube) * 60;
-        print(
-            "${lectures[i].start_time.toString()} - ${lectures[i - 1].end_time.toString()}-----time - " +
-                timeDif.toString());
-        lec.add(ClassCard(
-          paddingTop: timeDif / 15 * 20,
-          lecture: lectures[i],
-        ));
-      }
-    }
-    return Column(
-      children: lec,
-    );
-  }
-}
-
-class ClassCard extends StatelessWidget {
-  final double paddingTop;
-  final Lecture lecture;
-  const ClassCard({
-    Key key,
-    this.paddingTop,
-    this.lecture,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var startDouble = lecture.start_time.hour.toDouble() +
-        (lecture.start_time.minute.toDouble() / 60);
-    var lastDoube = lecture.end_time.hour.toDouble() +
-        (lecture.end_time.minute.toDouble() / 60);
-    var timeDif = (lastDoube - startDouble) * 60;
-    var time = lecture.start_time.hour.toString() +
-        ":" +
-        lecture.start_time.minute.toString().padLeft(2, '0') +
-        " - " +
-        lecture.end_time.hour.toString() +
-        ":" +
-        lecture.end_time.minute.toString().padLeft(2, '0');
-    return Padding(
-      padding: EdgeInsets.only(top: paddingTop),
-      child: Container(
-        child: Column(
-          children: [
-            Container(
-              height: timeDif / 15 * 20,
-              decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0))),
-              child: Container(
-                margin: EdgeInsets.only(left: 4.0),
-                color: Color(0xfffcf9f5),
-                padding: EdgeInsets.only(left: 12.0, top: 4.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 21.0,
-                      child: Row(
-                        children: [
-                          Text(time),
-                          VerticalDivider(),
-                          Text(lecture.lecturer.academic_title +
-                              ' ' +
-                              lecture.lecturer.name[0] +
-                              '. ' +
-                              lecture.lecturer.surname),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      lecture.name,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
