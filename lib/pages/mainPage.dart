@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule/Theme/MyTheme.dart' as Theme;
 import 'package:schedule/pages/scheduleView.dart';
+import 'package:schedule/pages/scheduleWeekView.dart';
 
 class MainView extends StatefulWidget {
   final String name;
@@ -72,7 +73,7 @@ class _MainView extends State<MainView> {
           );
         // else if (currentMenu == "calendar")
         // return weekDayListPage();
-        else if (currentMenu == "settings") return Text("$currentMenu");
+        else if (currentMenu == "settings") return ScheduleWeekView();
       }()),
     );
   }

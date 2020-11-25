@@ -89,26 +89,26 @@ class Schedule {
     return this.weekDay[weekDay - 1];
   }
 
-  Future<ScheduleViewModel> getLecturesForDay(DateTime date) async {
-    date = date.add(new Duration(days: 2));
-    print("Start");
+  ScheduleViewModel getLecturesForDay({
+    DateTime date,
+    int group,
+    int laboratories,
+    int specialization,
+  }) {
+    // print("Start");
     TimeOfDay start_time;
     TimeOfDay end_time;
 
-    SharedPreferences storage = await SharedPreferences.getInstance();
+    // SharedPreferences storage = await SharedPreferences.getInstance();
 
     String week = _checkWeek(date);
 
-    print("tydz: " + week.toString());
-
-    int group = storage.getInt("group") ?? 0;
-    int laboratories = storage.getInt("laboratories") ?? 0;
-    int specialization = storage.getInt("specialization") ?? 0;
+    // print("tydz: " + week.toString());
 
     //lectures to operate
     // WeekDay weekDay = this._getForWeekDay(date.weekday);
     // print("week: " + weekDay.toString());
-    print("weekday:" + date.weekday.toString());
+    // print("weekday:" + date.weekday.toString());
     List<Lecture> lec = this.weekDay[date.weekday - 1].lectures;
     // print("lec:" + lec.toString());
 
@@ -140,6 +140,7 @@ class Schedule {
     //getting lectures only for this laboratories
     //if laboratories in lecture is specified and isn't same as saved remove
     toRemove.clear();
+    // print("Xd");
     for (Lecture l in filtered) {
       if (!(l.laboratories == 0 || l.laboratories == laboratories))
         toRemove.add(l);
@@ -150,13 +151,18 @@ class Schedule {
     // print(l.name.toString());
     // }
 
-    start_time = filtered[0].start_time;
-    end_time = filtered[filtered.length - 1].end_time;
+    if (filtered.length > 1) {
+      start_time = filtered[0].start_time;
+      end_time = filtered[filtered.length - 1].end_time;
+    } else {
+      filtered = new List<Lecture>();
+      start_time = null;
+      end_time = null;
+    }
+    // print("lec:" + filtered.toString());
 
-    print("lec:" + filtered.toString());
-
-    print("start:" + start_time.toString());
-    print("start:" + end_time.toString());
+    // print("start:" + start_time.toString());
+    // print("start:" + end_time.toString());
 
     return new ScheduleViewModel(
         lectures_in_day: filtered, start_time: start_time, end_time: end_time);

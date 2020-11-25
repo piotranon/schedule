@@ -76,8 +76,8 @@ checkSchedule() async {
   SharedPreferences storage = await SharedPreferences.getInstance();
   print("st:" + storage.get('schedule').toString());
   Schedule xd = Schedule.fromJson(jsonDecode(storage.get('schedule')));
-  ScheduleViewModel test = await xd.getLecturesForDay(DateTime.now());
-  print("schedule View " + test.toString());
+  // ScheduleViewModel test = await xd.getLecturesForDay(DateTime.now());
+  // print("schedule View " + test.toString());
   // todo z tego scheduleViewModel wygenerowac wyglad przy zmianie
 }
 
