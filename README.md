@@ -2,12 +2,12 @@
 ## Author: Piotr Długosz
 
 ## Table of Contents
-1. [Technologies]()
-1. [Description]()
-1. [UI Preview]()
-1. [Summary of project]()
-1. [Schedule Analysis]()
-1. [Data structure]()
+1. [Technologies](https://github.com/piotranon/schedule#technologies)
+1. [Description](https://github.com/piotranon/schedule#description)
+1. [UI Preview](https://github.com/piotranon/schedule#ui-preview)
+1. [Summary of project](https://github.com/piotranon/schedule#summary-of-project)
+1. [Schedule Analysis](https://github.com/piotranon/schedule#schedule-analysis)
+1. [Data structure](https://github.com/piotranon/schedule#data-structure)
 
 ## Technologies: 
 - Flutter (dart) (for mobile app design)
@@ -17,10 +17,18 @@
 App will be showing a weekly schedule for UR lecture.  
 Data will be downloaded from django as RestApi request returning (json).
 ## UI Preview
-<img src="./img/1.png">
-<img src="./img/2.png">
-<img src="./img/3.png">
-<img src="./img/4.png">
+<table>
+    <tr>
+        <td><img src="./img/2.png"></td>
+        <td><img src="./img/1.png"></td>
+        <td><img src="./img/3.png"></td>
+        <td><img src="./img/4.png"></td>
+    </tr>
+</table>
+
+
+
+
 
 ## Summary of project
 Project is getting a data from api. Api has 2 endpoints:
