@@ -89,6 +89,10 @@ class Schedule {
     return this.weekDay[weekDay - 1];
   }
 
+  getField() {
+    return this.field;
+  }
+
   ScheduleViewModel getLecturesForDay({
     DateTime date,
     int group,

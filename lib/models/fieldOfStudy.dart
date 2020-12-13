@@ -25,6 +25,18 @@ class FieldOfStudy {
     this.laboratories = json['laboratories'].cast<int>();
   }
 
+  getGroups() {
+    return this.groups;
+  }
+
+  getLaboratories() {
+    return this.laboratories;
+  }
+
+  getSpecializations() {
+    return this.specializations;
+  }
+
   @override
   String toString() {
     return '{"id":' +

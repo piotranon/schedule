@@ -94,7 +94,19 @@ class _ScheduleWeekView extends State<ScheduleWeekView> {
 
   Widget buildLoaded(ScheduleViewModel model) {
     if (model.lectures_in_day.length < 1)
-      return Text("Nie masz zajeć :D");
+      return Expanded(
+          child: Center(
+              child: Container(
+                  child: RotationTransition(
+        turns: new AlwaysStoppedAnimation(15 / 360),
+        child: Text(
+          "Nie masz zajeć :D",
+          style: TextStyle(
+              fontSize: 35.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(80, 80, 80, 1)),
+        ),
+      ))));
     else
       return Expanded(
           child: SingleChildScrollView(

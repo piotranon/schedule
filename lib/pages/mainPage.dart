@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule/Theme/MyTheme.dart' as Theme;
-import 'package:schedule/pages/scheduleView.dart';
-import 'package:schedule/pages/scheduleWeekView.dart';
+import 'package:schedule/pages/Views/scheduleWeekView.dart';
+import 'package:schedule/pages/Views/settingsView.dart';
 
 class MainView extends StatefulWidget {
   final String name;
@@ -34,19 +34,6 @@ class _MainView extends State<MainView> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    child: Text("Calendar"),
-                    onPressed: () {
-                      setState(() {
-                        currentMenu = "calendar";
-                      });
-                    },
-                  ),
-                ),
-              ),
             ]),
           ),
           centerTitle: true,
@@ -68,12 +55,10 @@ class _MainView extends State<MainView> {
       backgroundColor: Colors.white,
       body: (() {
         if (currentMenu == "schedule")
-          return ScheduleView(
-            daysNumbers: daysNumber(),
-          );
+          return ScheduleWeekView();
         // else if (currentMenu == "calendar")
         // return weekDayListPage();
-        else if (currentMenu == "settings") return ScheduleWeekView();
+        else if (currentMenu == "settings") return SettingsView();
       }()),
     );
   }
