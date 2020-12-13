@@ -1,6 +1,14 @@
 # Project Name: Mobile App with schedule for UR
 ## Author: Piotr Długosz
 
+## Table of Contents
+1. [Technologies]()
+1. [Description]()
+1. [UI Preview]()
+1. [Summary of project]()
+1. [Schedule Analysis]()
+1. [Data structure]()
+
 ## Technologies: 
 - Flutter (dart) (for mobile app design)
 - Django (python) (as RestAPI for schedule data)
@@ -8,7 +16,26 @@
 ## Description
 App will be showing a weekly schedule for UR lecture.  
 Data will be downloaded from django as RestApi request returning (json).
-// image preview of UI
+## UI Preview
+<img src="./img/1.png">
+<img src="./img/2.png">
+<img src="./img/3.png">
+<img src="./img/4.png">
+
+## Summary of project
+Project is getting a data from api. Api has 2 endpoints:
+1. gather all schedules
+1. get details about a chedule by id
+
+Both endpoints are used in settings in DropdownButton (select one) { One is used for a list of values to dropdownbutton, seconde one is used for gathering information from an api about a selected schedule}
+
+Object is stored as String in SharedPreferences preffered way of storing data on client Side by flutter.
+
+Each object have individual jsonMapper from Map.
+
+User that choose a schedule, can got to the schedule section and view a schedule. 
+
+If he wants to he can select a group, laboratories, specializations. If he does not select he will see all lectures.
 
 ## Schedule analysis
 Schedule is assigned to year of study, field of study and current year, so each one from that is unique.
@@ -42,60 +69,108 @@ Each student is assigned to one main group, laboratories group and speciality (i
 
 ## Data structure:
 1. Models nested structure
-    - Schedule 
-        - fieldOfStudy (String)
-        - yearOfStudy (String)
-        - specialities (List String)
-        - weekSchedule (Object weekSchedule)
-            - daySchedule (Object daySchedule)
-                - dayName (String)
-                - lectures (List lectures)
-                    - weeks (String)
-                    - type (enum String)
-                    - name (String)
-                    - startTime (String)
-                    - endTime (String)
-                    - mainGroup (int)
-                    - laboratoriesGroup (int)
-                    - lecturer (lecturer)
-                        - name (String)
-                        - surname (String)
-                        - email (String)
-                        - academicTitle (String)
-1. Individual models with shost description
+    - [schedule (object Schedule)](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/schedule.dart#L9)
+        - [weekDay (List \<object WeekDay>)](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/weekDay.dart#L3)
+            - [lectures (List \<object Lecture>)](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/lecture.dart#L4)
+                - weeks (String)
+                - name (String)
+                - start_time (TimeOfDay)
+                - end_time (TimeOfDay)
+                - group (int)
+                - laboratories (int)
+                - specialization (int)
+                - [lecturer (object Lecturer)](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/lecturer.dart#L1)
+                    - name (string)
+                    - surname (string)
+                    - email (string)
+                    - academic_title (string)
+        - week1_3 (List \<DateTime>)
+        - week2_4 (List \<DateTime>)
+        - [field (object FieldOfStudy)](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/fieldOfStudy.dart#L3)
+            - id (id)
+            - name (String)
+            - semester (int)
+            - year (String)
+            - groups (List \<int>)
+            - laboratories (List \<int>)
+            - [specializations (List \<object Specialization>)](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/specialization.dart#L1)
+                - id (int)
+                - name (String)
+                - short (String)
+
+1. Individual models with short description
+    - [Schedule](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/schedule.dart#L9)
+        > General object of schedule containing all other objects.
+        - Variables
+            - field
+                > Information about a field of study that is assigned to schedule (Basic point of view, schedule is assigned to field not field to schedule)
+            - weekDay
+                > Contains all information about a lectures in each day from Monday to Sunday.
+            - week1_3
+                > Contains list of days which start not even week 
+            - week2_4
+                > Contains list of days which start even week
+        
+    - [weekDay](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/weekDay.dart#L3)
+        > Contains all information about a schedule that means lectures assigned to days.
+        - Variables
+            - lectures
+                > List of Lectures
     
-    - Schedule  
-         Contains information about field of study, year of study, specialities,
-         and weekly schedule.
-        - fieldOfStudy (String)
-        - yearOfStudy (String)
-        - specialities (List String)
-        - weekSchedule (Object weekSchedule)
-
-    - weekSchedule  
-        Contains list of day schedules as a week schedule.
-        - daySchedule (List daySchedule)
-
-    - daySchedule  
-        Contains day name, and List of lectures for specified day.
-        - dayName (String)
-        - lectures (List lectures)
-
-    - lectures  
-        Contains information about a lecture, weeks specifies which week is lecture in {"1/3","2/4","all"}, name is name of the lecture, startTime is a time when lecture starts, endTime is a time when lecture ends, mainGroup is a group for which is lecture, laboratoriesGroup is a group for which is a lecture, specialization is a group for wich is a lecture, lecturer informations about a lecturer.
-        - weeks (String)
-        - name (String)
-        - type (Enum String {"lecture","exercise","laboratories"})
-        - startTime (String)
-        - endTime (String)
-        - mainGroup (int) (nullable)
-        - laboratoriesGroup (int) (nullable)
-        - specialization (String) (nullable)
-        - lecturer (lecturer)
+    - [Lecture](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/lecture.dart#L4)
+        > Contains information about a lecture
+        - Variables
+            - weeks
+                > Information about if lecture is even/not even or both weeks.
+            - name 
+                > name of the lecture
+            - start_time
+                > time when lecture start
+            - end_time
+                > time when lecture end
+            - group
+                > group assigned to lecture (if group not specified all assigned)
+            - laboratories
+                > laboratories group assigned to lecture (if laboratories not specified all assigned)
+            - specialization
+                > specializations group assigned to lecture (if specialization not specified all assigned)
+            - lecturer
+                > basic information about a lecturer of lecture
     
-    - lecturer  
-        Contains information about a lecturer.
-        - name (String)
-        - surname (String)
-        - email (String)
-        - academicTitle (String)
+    - [Lecturer](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/lecturer.dart#L1)
+        > Contains information about a lecturer
+        - Variables
+            - name
+                > name of lecturer
+            - surname
+                > surname of lecturer
+            - email
+                > email of lecturer for contact
+            - academic_title
+                > academic title of lectuter
+    
+    - [FieldOfStudy](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/fieldOfStudy.dart#L3)
+        > Contains information about a field of study
+        - Variables
+            - id
+            - name
+                > name of field
+            - semester
+                > semester study
+            - year
+                > year of schedule
+            - specializattions
+                > List of specialization on the year with details
+            - groups
+                > List of int with all groups on the year
+            - laboratories
+                > List of int with all laboratories group on the year
+    
+    - [Specialization](https://github.com/piotranon/schedule/blob/80c955d9dc40df443d130b61c6de12e05ede1dde/lib/models/specialization.dart#L1)
+        > Contains information about a specialization
+        - Variables
+            - id
+            - name
+                > name of specialization
+            - short
+                > short name of specialization almost always first letters of names
