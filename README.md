@@ -13,6 +13,8 @@
 - Flutter (dart) (for mobile app design)
 - Django (python) (as RestAPI for schedule data)
 
+## [Api project repo](https://github.com/piotranon/ScheduleApi#scheduleapi)
+
 ## Description
 App will be showing a weekly schedule for UR lecture.  
 Data will be downloaded from django as RestApi request returning (json).
